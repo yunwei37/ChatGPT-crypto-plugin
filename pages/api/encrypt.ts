@@ -25,6 +25,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   let output;
   
   try {
+    // enum: [AES, HMAC-SHA256, SHA256, MD5, hex, Base64, UTF8, PBKDF2, SHA1, HMAC-MD5]
     switch (method) {
       case 'SHA256':
         output = calcSha256(input, input_format, output_format);
@@ -35,6 +36,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       case 'MD5':
         output = calcMd5(input, input_format, output_format);
         break;
+      
       // Add cases for other methods...
       default:
         res.status(400).json({ error: `Unsupported method: ${method}` });

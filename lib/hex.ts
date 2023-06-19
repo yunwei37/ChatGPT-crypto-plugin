@@ -1,10 +1,10 @@
 // lib/hex.ts
-import { Utf8, Hex } from 'crypto-js';
+import { fromInputFormat, toOutputFormat } from './encode';
 
-export function calcHex(input: string): string {
+export function calcHex(input: string, input_format: string, output_format: string): string {
   // Convert input to WordArray format for crypto-js
-  const wordArrayInput = Utf8.parse(input);
-  
-  // Convert WordArray to hex
-  return Hex.stringify(wordArrayInput);
+  const wordArrayInput = fromInputFormat(input, input_format);
+
+  // Convert hex result to desired output format
+  return toOutputFormat(wordArrayInput, 'hex');
 }
