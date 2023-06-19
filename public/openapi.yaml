@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: This is the API specification for the ChatGPT Encryption Plugin. It provides an endpoint to encrypt data using various methods.
 paths:
-  /encrypt:
+  /api/encrypt:
     post:
       summary: Encrypt data
       description: Encrypts a given string using the specified method and returns the encrypted data.
