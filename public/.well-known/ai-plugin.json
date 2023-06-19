@@ -1,10 +1,9 @@
 {
     "schema_version": "v1",
-    "name_for_human": "Git OSS Stats",
-    "name_for_model": "gitUserRepoStats",
-    "description_for_human": "Dynamically generate and analyze stats and history for OSS repos and developers.",
-    "description_for_model": "Manages the retrieval of comprehensive statistics and information about OSS repositories or developers. It provides capabilities such as generating and fetching detailed repository data, user data, community data, star history, and other relevant statistics.",
-    "auth": {
+    "name_for_human": "Crypto Toolkit",
+    "name_for_model": "cryptoToolkit",
+    "description_for_human": "Unlock powerful cryptographic functions like AES encryption, SHA256/MD5 hashing, and Base64 encoding.",
+    "description_for_model": "Offers access to a broad array of cryptographic functions, including but not limited to AES encryption, HMAC-SHA256, SHA256, MD5, Hex encoding, Base64 encoding, UTF8 encoding, PBKDF2, and SHA1. These algorithms are widely used in cryptography for tasks such as secure encryption, generating hash functions, creating digital signatures, and encoding/decoding data.",      "auth": {
         "type": "none"
     },
     "api": {
