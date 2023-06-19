@@ -10,8 +10,9 @@ export function fromInputFormat(input: string, input_format: string): any {
     case 'Base64':
       return Base64.parse(input);
     case 'utf-8':
-    default:
       return Utf8.parse(input);
+    default:
+      throw new Error(`Unsupported input format ${input_format}`);
   }
 }
 
@@ -23,7 +24,8 @@ export function toOutputFormat(hash: any, output_format: string): string {
         case 'Base64':
         return hash.toString(Base64);
         case 'utf-8':
+          return hash.toString(Utf8);
         default:
-        return hash.toString(Utf8);
+          throw new Error(`Unsupported output format ${output_format}`);
     }
 }
