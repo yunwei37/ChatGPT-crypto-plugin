@@ -1,8 +1,15 @@
 // pages/api/encrypt.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { calcSha256 } from '../../lib/sha256';
-import { calcAes } from '../../lib/aes';
+import { calcAesEncrypt } from '../../lib/aes';
 import { calcMd5 } from '../../lib/md5';
+import { calcHex } from '../../lib/hex';
+import { calcBase64 } from '../../lib/base64';
+import { calcUtf8 } from '../../lib/utf8';
+import { calcHmacSha256 } from '../../lib/hmac-sha256';
+import { calcPbkdf2 } from '../../lib/pbkdf2';
+import { calcSha1 } from '../../lib/sha1';
+import { calcHmacMd5 } from '../../lib/hmac-md5';
 // import other methods...
 
 interface EncryptRequestBody {
@@ -25,26 +32,43 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   let output;
   
   try {
-    // enum: [AES, HMAC-SHA256, SHA256, MD5, hex, Base64, UTF8, PBKDF2, SHA1, HMAC-MD5]
     switch (method) {
       case 'SHA256':
         output = calcSha256(input, input_format, output_format);
         break;
       case 'AES':
-        output = calcAes(input, parameters.aes_key, input_format, output_format);
+        output = calcAesEncrypt(input, parameters.aes_key, input_format, output_format);
         break;
       case 'MD5':
         output = calcMd5(input, input_format, output_format);
         break;
-      
-      // Add cases for other methods...
+      case 'hex':
+        output = calcHex(input, input_format, output_format);
+        break;
+      case 'Base64':
+        output = calcBase64(input, input_format, output_format);
+        break;
+      case 'UTF8':
+        output = calcUtf8(input, input_format, output_format);
+        break;
+      case 'HMAC-SHA256':
+        output = calcHmacSha256(input, parameters.key, input_format, output_format);
+        break;
+      case 'PBKDF2':
+        output = calcPbkdf2(input, parameters.salt, parameters.iterations, parameters.keySize, input_format, output_format);
+        break;
+      case 'SHA1':
+        output = calcSha1(input, input_format, output_format);
+        break;
+      case 'HMAC-MD5':
+        output = calcHmacMd5(input, parameters.key, input_format, output_format);
+        break;
       default:
         res.status(400).json({ error: `Unsupported method: ${method}` });
         return;
     }
-
     res.status(200).json({ output, encoding: output_format });
-  } catch (error) {
-    res.status(500).json({ error: `An error occurred while processing your request: ${error.message}` });
+  } catch (error: any) {
+    res.status(500).json({ error: `Error during encryption: ${error.message}` });
   }
 }
