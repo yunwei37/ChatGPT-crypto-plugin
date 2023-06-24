@@ -1,13 +1,28 @@
-import { calcMd5 } from '../lib/md5';
+import { calcMd5, calcHmacMd5 } from '../lib/md5';
 
 describe('calcMd5', () => {
-  it('should calculate the MD5 hash of the input and return the result in the specified output format', () => {
-    const input = 'hello world';
+  it('should calculate MD5 hash of input string and return the result in hex format', () => {
+    const input = 'Hello, world!';
     const input_format = 'utf-8';
     const output_format = 'hex';
+    const expectedOutput = {
+      output: '6cd3556deb0da54bca060b4c39479839',
+      output_format: 'hex',
+    };
+    expect(calcMd5(input, input_format)).toEqual(expectedOutput);
+  });
+});
 
-    const result = calcMd5(input, input_format, output_format);
-
-    expect(result).toEqual("5eb63bbbe01eeed093cb22bb8f5acdc3")
+describe('calcHmacMd5', () => {
+  it('should calculate HMAC-MD5 hash of input string and return the result in hex format', () => {
+    const input = 'Hello, world!';
+    const key = 'secret key';
+    const input_format = 'utf-8';
+    const output_format = 'hex';
+    const expectedOutput = {
+      output: '422e5acff282741439a8928fd2cebeba',
+      output_format: 'hex',
+    };
+    expect(calcHmacMd5(input, key, input_format)).toEqual(expectedOutput);
   });
 });

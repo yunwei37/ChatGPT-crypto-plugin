@@ -58,3 +58,31 @@ describe('toOutputFormat', () => {
     expect(result).toEqual('Hello World');
   });
 });
+
+import { calcBase64 } from '../lib/base64';
+
+describe('calcBase64', () => {
+  it('should convert input string to Base64 format', () => {
+    const input = 'Hello, world!';
+    const input_format = 'utf-8';
+    const expectedOutput = {
+      output: 'SGVsbG8sIHdvcmxkIQ==',
+      output_format: 'Base64',
+    };
+    expect(calcBase64(input, input_format)).toEqual(expectedOutput);
+  });
+});
+
+import { calcHex } from '../lib/hex';
+
+describe('calcHex', () => {
+  it('should convert input string to hex format', () => {
+    const input = 'Hello, world!';
+    const input_format = 'utf-8';
+    const expectedOutput = {
+      output: '48656c6c6f2c20776f726c6421',
+      output_format: 'hex',
+    };
+    expect(calcHex(input, input_format)).toEqual(expectedOutput);
+  });
+});

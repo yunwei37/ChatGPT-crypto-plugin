@@ -1,53 +1,221 @@
 openapi: 3.0.0
 info:
   title: Encryption API
-  version: 1.0.0
-  description: This is the API specification for the ChatGPT Encryption Plugin. It provides an endpoint to encrypt data using various methods.
+  version: 1.1.0
+  description: This is the API specification for the ChatGPT Encryption Plugin. It provides endpoints to encrypt and decrypt data using various methods.
+components:
+  schemas:
+    EncryptedOutput:
+      type: object
+      properties:
+        output:
+          type: string
+          description: The encrypted output.
+        output_format:
+          type: string
+          enum: [hex, Base64, utf-8, Unknown]
+          description: The encoding of the output.
+      required:
+        - output
+        - output_format
+    EncryptionRequest:
+      type: object
+      properties:
+        input:
+          type: string
+          description: The input string to encrypt.
+        input_format:
+          type: string
+          enum: [Base64, utf-8, Unknown]
+          description: The format of the input string.
+      required:
+        - input
+        - input_format
+    EncryptionRequestWithKey:
+      type: object
+      properties:
+        input:
+          type: string
+          description: The input string to encrypt.
+        input_format:
+          type: string
+          enum: [Base64, utf-8, Unknown]
+          description: The format of the input string.
+        key:
+          type: string
+          description: The key to use for encryption.
+        required:
+          - input
+          - input_format
+          - key
 paths:
-  /api/encrypt:
+  /api/encrypt/aes:
     post:
-      summary: Encrypt data
-      description: Encrypts a given string using the specified method and returns the encrypted data.
+      summary: Encrypt data using AES method
+      description: Encrypts a given string using the AES method and returns the encrypted data.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                method:
-                  type: string
-                  enum: [AES, HMAC-SHA256, SHA256, MD5, hex, Base64, UTF8, PBKDF2, SHA1, HMAC-MD5]
-                  description: The encryption method to use.
-                input:
-                  type: string
-                  description: The input string to encrypt.
-                input_format:
-                  type: string
-                  enum: [hex, Base64, utf-8]
-                  description: The format of the input string.
-                output_format:
-                  type: string
-                  enum: [hex, Base64, utf-8]
-                  description: The desired format of the encrypted output.
-                parameters:
-                  type: object
-                  properties:
-                    aes_key:
-                      type: string
-                      description: The key to use for AES encryption.
-              required: [method, input, input_format]
+              $ref: '#/components/schemas/EncryptionRequestWithKey'
       responses:
         '200':
           description: A successful response, returning the encrypted data.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  output:
-                    type: string
-                    description: The encrypted output.
-                  encoding:
-                    type: string
-                    description: The encoding of the output.
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/hmac-sha256:
+    post:
+      summary: Encrypt data using HMAC-SHA256 method
+      description: Encrypts a given string using the HMAC-SHA256 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequestWithKey'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/sha256:
+    post:
+      summary: Encrypt data using SHA256 method
+      description: Encrypts a given string using the SHA256 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequest'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/md5:
+    post:
+      summary: Encrypt data using MD5 method
+      description: Encrypts a given string using the MD5 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequest'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/hex:
+    post:
+      summary: Encrypt data using hex method
+      description: Encrypts a given string using the hex method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequest'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/base64:
+    post:
+      summary: Encrypt data using Base64 method
+      description: Encrypts a given string using the Base64 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequest'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/utf8:
+    post:
+      summary: Encrypt data using UTF8 method
+      description: Encrypts a given string using the UTF8 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequest'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/sha1:
+    post:
+      summary: Encrypt data using SHA1 method
+      description: Encrypts a given string using the SHA1 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequest'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/encrypt/hmac-md5:
+    post:
+      summary: Encrypt data using HMAC-MD5 method
+      description: Encrypts a given string using the HMAC-MD5 method and returns the encrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequestWithKey'
+      responses:
+        '200':
+          description: A successful response, returning the encrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'
+  /api/decrypt/aes:
+    post:
+      summary: Decrypt data using AES method
+      description: Decrypts a given string using the AES method and returns the decrypted data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncryptionRequestWithKey'
+      responses:
+        '200':
+          description: A successful response, returning the decrypted data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncryptedOutput'

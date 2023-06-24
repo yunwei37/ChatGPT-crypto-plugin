@@ -1,57 +1,45 @@
+// __tests__/aes.test.ts
 import { calcAesEncrypt, calcAesDecrypt } from '../lib/aes';
-import CryptoJS from 'crypto-js';
-
-describe('AES encryption and decryption', () => {
-  it('should encrypt and then decrypt the input to get back the original string', () => {
-    const input = 'hello world';
-
-    // Generate a 256-bit AES key
-    const keyWordArray = CryptoJS.lib.WordArray.random(256 / 8);
-    const key = keyWordArray.toString(CryptoJS.enc.Hex);
-    console.log('key ', key);
-    const input_format = 'utf-8';
-    const output_format = 'hex';
-
-    const encrypted = calcAesEncrypt(input, key, input_format, output_format);
-    console.log('encrypted ', encrypted);
-    const decrypted = calcAesDecrypt(encrypted, key, output_format, input_format);
-
-    expect(decrypted).toEqual(input);
-  });
-
-  it("test basic aes encrypt", () => {
-    // Encrypt
-    var ciphertext = CryptoJS.AES.encrypt('my message', 'secret key 123').toString();
-
-    // Decrypt
-    var bytes = CryptoJS.AES.decrypt(ciphertext, 'secret key 123');
-    var originalText = bytes.toString(CryptoJS.enc.Utf8);
-    expect(originalText).toEqual("my message");
-  });
-});
+import { EncryptedOutput } from '../interfaces/output.ts';
 
 describe('calcAesEncrypt', () => {
-  it('should encrypt input using AES and return result in Base64 format', () => {
-    const input = 'my message';
-    const key = 'secret key 123';
-    const input_format = 'utf-8';
-    const output_format = 'Base64';
+  function testCalcAesEncrypt(input: string, key: string) {
+    const encrypted = calcAesEncrypt(input, key);
+    const output = calcAesDecrypt(encrypted.output, key);
+    expect(output).toEqual({ output: input, output_format: 'Unknown' });
+  }
 
-    const result = calcAesEncrypt(input, key, input_format, output_format);
+  it('should encrypt and decrypt empty input string with AES', () => {
+    testCalcAesEncrypt('', 'secret key');
+  });
 
-    expect(result)
+  it('should encrypt and decrypt input string with special characters with AES', () => {
+    testCalcAesEncrypt('Hello, world!@#$%^&*()', 'secret key');
+  });
+
+  it('should encrypt and decrypt input string with non-ASCII characters with AES', () => {
+    testCalcAesEncrypt('こんにちは、世界！', '秘密の鍵');
   });
 });
 
 describe('calcAesDecrypt', () => {
-  it('should decrypt input using AES and return result in utf-8 format', () => {
-    const encrypted = 'U2FsdGVkX1+KscgEsaQMmSRRTqyIHVXnMs4J6zsWvBc=';
-    const key = 'secret key 123';
-    const input_format = 'Base64';
-    const output_format = 'utf-8';
+  it('should decrypt empty input string with AES and return the result in utf-8 format', () => {
+    const encrypted = 'U2FsdGVkX19VfrvB50C/OemNyFrnzqBLTzGnto1duqc=';
+    const key = 'secret key';
+    const expectedOutput = {
+      output: '',
+      output_format: 'Unknown',
+    };
+    expect(calcAesDecrypt(encrypted, key)).toEqual(expectedOutput);
+  });
 
-    const result = calcAesDecrypt(encrypted, key, input_format, output_format);
-
-    expect(result).toEqual('my message');
+  it('should decrypt input string with special characters with AES and return the result in utf-8 format', () => {
+    const encrypted = 'U2FsdGVkX1+vyMhFm8fv0kf6hBxSKfUCZqoDMUPak37nJyiPKAgvC9yq6S/meNYq';
+    const key = 'secret key';
+    const expectedOutput = {
+      output: 'Hello, world!@#$%^`',
+      output_format: 'Unknown',
+    };
+    expect(calcAesDecrypt(encrypted, key)).toEqual(expectedOutput);
   });
 });

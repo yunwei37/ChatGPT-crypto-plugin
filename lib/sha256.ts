@@ -1,13 +1,10 @@
 // lib/sha256.ts
-import sha256 from 'crypto-js/sha256';
+import SHA256 from 'crypto-js/sha256';
 import { fromInputFormat, toOutputFormat } from './encode';
+import { EncryptedOutput } from '../interfaces/output';
 
-export function calcSha256(input: string, input_format: string, output_format: string): string {
-  // Convert input to WordArray format for crypto-js
+export function calcSha256(input: string, input_format: string): EncryptedOutput {
   const wordArrayInput = fromInputFormat(input, input_format);
-
-  const hash = sha256(wordArrayInput);
-  
-  // Convert hash to desired output format0
-  return toOutputFormat(hash, output_format);
+  const sha256Digest = SHA256(wordArrayInput);
+  return { output: sha256Digest.toString(), output_format: 'hex' };
 }
