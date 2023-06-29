@@ -1,11 +1,10 @@
 // __tests__/aes.test.ts
 import { calcAesEncrypt, calcAesDecrypt } from '../lib/aes';
-import { EncryptedOutput } from '../interfaces/output.ts';
 
 describe('calcAesEncrypt', () => {
   function testCalcAesEncrypt(input: string, key: string) {
     const encrypted = calcAesEncrypt(input, key);
-    const output = calcAesDecrypt(encrypted.output, key);
+    const output = calcAesDecrypt(encrypted.output, key, encrypted.output_format);
     expect(output).toEqual({ output: input, output_format: 'Unknown' });
   }
 
@@ -30,7 +29,7 @@ describe('calcAesDecrypt', () => {
       output: '',
       output_format: 'Unknown',
     };
-    expect(calcAesDecrypt(encrypted, key)).toEqual(expectedOutput);
+    expect(calcAesDecrypt(encrypted, key, "Base64")).toEqual(expectedOutput);
   });
 
   it('should decrypt input string with special characters with AES and return the result in utf-8 format', () => {
@@ -40,6 +39,6 @@ describe('calcAesDecrypt', () => {
       output: 'Hello, world!@#$%^`',
       output_format: 'Unknown',
     };
-    expect(calcAesDecrypt(encrypted, key)).toEqual(expectedOutput);
+    expect(calcAesDecrypt(encrypted, key, "Base64")).toEqual(expectedOutput);
   });
 });

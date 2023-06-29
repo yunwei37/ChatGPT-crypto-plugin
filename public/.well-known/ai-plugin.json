@@ -3,7 +3,8 @@
     "name_for_human": "Crypto Toolkit",
     "name_for_model": "cryptoToolkit",
     "description_for_human": "Bring crypto and hash functions like AES encryption, SHA256/MD5 hashing, Hex and Base64 encoding.",
-    "description_for_model": "Offers access to a broad array of cryptographic functions, including but not limited to AES encryption, HMAC-SHA256, SHA256, MD5, Hex encoding, Base64 encoding, UTF8 encoding, and SHA1. These algorithms are widely used in cryptography for tasks such as secure encryption, generating hash functions, creating digital signatures, and encoding/decoding data.",      "auth": {
+    "description_for_model": "Offers access to a broad array of cryptographic functions, including but not limited to AES encryption, HMAC-SHA256, SHA256, MD5, Hex encoding, Base64 encoding, UTF8 encoding, and SHA1. These algorithms are widely used in cryptography for tasks such as secure encryption, generating hash functions, creating digital signatures, and encoding/decoding data.",
+    "auth": {
         "type": "none"
     },
     "api": {
@@ -12,5 +13,5 @@
     },
     "logo_url": "https://chat-gpt-github-stat-plugin.vercel.app/logo.png",
     "contact_email": "yunwei356@gmail.com",
-    "legal_info_url": "https://github.com/yunwei37/ChatGPT-github-stat-plugin"
+    "legal_info_url": "https://github.com/yunwei37/ChatGPT-crypto-plugin"
 }
